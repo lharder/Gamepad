@@ -1,0 +1,18 @@
+images {
+  image: "/main/assets/lineLight05.png"
+}
+images {
+  image: "/main/assets/lineLight49.png"
+}
+images {
+  image: "/main/assets/lineLight46.png"
+}
+images {
+  image: "/main/assets/menu.png"
+}
+images {
+  image: "/main/assets/marker.png"
+}
+margin: 0
+extrude_borders: 0
+inner_padding: 0
