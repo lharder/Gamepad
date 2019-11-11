@@ -2,7 +2,7 @@
 title = Gamepad
 
 [bootstrap]
-main_collection = /main/gamepad.collectionc
+main_collection = /example/game.collectionc
 
 [input]
 game_binding = /input/game.input_bindingc

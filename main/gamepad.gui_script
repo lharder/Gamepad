@@ -1,3 +1,11 @@
+function string:split( sep )
+	local sep, fields = sep or ":", {}
+	local pattern = string.format( "([^%s]+)", sep )
+	self:gsub( pattern, function( c ) fields[ #fields+1 ] = c end )
+	
+	return fields
+end
+
 
 
 function init( self )
@@ -5,13 +13,51 @@ function init( self )
 
 	self.background = gui.get_node( "background" )
 	self.joystick = gui.get_node( "joystick" )
-	self.buttonA = gui.get_node( "buttonA")
-	self.buttonB = gui.get_node( "buttonB")
-	self.buttonMenu = gui.get_node( "buttonMenu")
+	self.buttons = {}
 
+	-- generate buttons dynamically, use as invisible template only
+	self.buttonTmpl = gui.get_node( "buttonTmpl")
+	gui.set_enabled( self.buttonTmpl, false )
+	
 	self.joystick_default_position = gui.get_position( self.joystick )
 	self.joystick_start_position = self.joystick_default_position
 end
+
+
+
+function addButton( self, name, x, y, texture ) 
+	local btn = gui.clone( self.buttonTmpl )
+	gui.set_enabled( btn, true )
+	-- pprint( btn )
+
+	local pos = gui.get_position( btn )
+	pos.x = x
+	pos.y = y
+	gui.set_position( btn, pos )
+
+	-- custom texture provided?
+	if texture then
+		-- use a custom image or atlas/image? 
+		-- Comes as "{atlasname}/{imagename}", e.g. "gamepad1/lineLight46"
+		local atlas = "gamepad1"
+		local img = "lineLight46"
+		if string.find( texture, "/" ) then
+			local parts = texture:split( "/" )
+			atlas = parts[ 1 ]
+			img = parts[ 2 ]
+		else 
+			-- no "/": use standard gamepad atlas
+			-- parameter is img name 
+			img = texture
+		end
+		gui.set_texture( btn, atlas )
+		gui.play_flipbook( btn, img )
+	end
+
+	table.insert( self.buttons, { name = name,  button = btn } )
+	return btn
+end
+
 
 
 function final( self )
@@ -28,11 +74,20 @@ function on_message( self, message_id, message, sender )
 
 	elseif message_id == hash( "markerRotation" ) then
 		gui.set_rotation( self.background, vmath.vector3( 0, 0, message.degrees ) )
+
+	elseif message_id == hash( "addButton" ) then
+		addButton( self, message.name, message.x, message.y, message.texture )
 	end
 end
 
 
 local function post_to_listener( self, message_id, message )
+	-- if a custom handler function per button is provided use that
+	for i, item in ipairs( self.buttons ) do 
+		-- handle
+	end
+
+	-- otherwise send message to default listener
 	if self.listener then
 		msg.post( self.listener, message_id, message or {} )
 		-- pprint( message )
@@ -43,18 +98,15 @@ end
 
 local function handle_touch( self, touch, touch_index )
 	if touch.pressed then
-		if gui.pick_node( self.buttonMenu, touch.x, touch.y ) then
-			msg.post( "controller:/loader#script", "load", { level = MAIN_MENU } )
+		-- handle buttons
+		for i, item in ipairs( self.buttons ) do 
+			if gui.pick_node( item.button, touch.x, touch.y ) then
+				post_to_listener( self, item.name, { released = false, pressed = true } )
+			end
 		end
-		
+
 		-- handle joystick
-		if gui.pick_node( self.buttonA, touch.x, touch.y) then
-			post_to_listener( self, "buttonA", { released = false, pressed = true } )
-			
-		elseif gui.pick_node( self.buttonB, touch.x, touch.y) then
-			post_to_listener( self, "buttonB", { released = false, pressed = true } )
-				
-		elseif gui.pick_node( self.joystick, touch.x, touch.y ) then
+		if gui.pick_node( self.joystick, touch.x, touch.y ) then
 			-- calibrate: jump joystick to finger on first touch!
 			calibrate( self, touch )
 			
@@ -77,12 +129,13 @@ local function handle_touch( self, touch, touch_index )
 
 			
 		else
-			if gui.pick_node( self.buttonA, touch.x, touch.y ) then
-				post_to_listener( self, "buttonA", { released = true,  pressed = false } )
-				
-			elseif gui.pick_node( self.buttonB, touch.x, touch.y ) then
-				post_to_listener( self, "buttonB", { released = true,  pressed = false } )
+			-- handle buttons
+			for i, item in ipairs( self.buttons ) do 
+				if gui.pick_node( item.button, touch.x, touch.y ) then
+					post_to_listener( self, item.name, { released = true, pressed = false } )
+				end
 			end
+			-- end handle
 		end
 		
 	elseif self.joystick_pressed and self.joystick_pressed.index == touch_index then

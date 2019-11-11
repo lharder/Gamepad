@@ -1,21 +1,20 @@
+require( "main.Gamepad" )
+
+
+
 function init( self )
-	-- register to be informed about gamepad input
-	msg.post( "main:/controls#gamepad", "register", {} )
+	self.gp = Gamepad.new()
+	self.gp:addButton( "Button A", 900, 100 )
+	self.gp:addButton( "Button B", 1010, 100 )
+	self.gp:addButton( "Menu", 1106, 26, "menuSmall" )
 end
 
 
 function on_message( self, message_id, message, sender )
 	if message_id == hash( "joystick" ) then
 		pprint( "joystick   x: " .. tostring( message.x ) .. ",   y: " .. tostring( message.y ) )
-		
-	elseif message_id == hash( "buttonA" ) then
-		pprint( "Button A  pressed: " .. tostring( message.pressed ) .. ",    released: " .. tostring( message.released ) )
-		
-	elseif message_id == hash( "buttonB" ) then
-		pprint( "Button B  pressed: " .. tostring( message.pressed ) .. ",    released: " .. tostring( message.released ) )
-		
 	else
-		pprint( message_id )
+		pprint( tostring( message_id ) .. ": " .. tostring( message.pressed ) .. ",    released: " .. tostring( message.released ) )
 	end
 	
 end

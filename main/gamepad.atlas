@@ -13,6 +13,9 @@ images {
 images {
   image: "/main/assets/marker.png"
 }
+images {
+  image: "/main/assets/menuSmall.png"
+}
 margin: 0
 extrude_borders: 0
 inner_padding: 0
