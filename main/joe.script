@@ -3,7 +3,7 @@ require( "lib.Gamepad" )
 
 
 function init( self )
-	self.gp = Gamepad.new()
+	self.gp = Gamepad.new( "/joe#gamepadFactory" )
 	self.gp:addButton( "Button A", 900, 100 )
 	self.gp:addButton( "Button B", 1010, 100 )
 	self.gp:addButton( "Menu", 1106, 26, "menuSmall", "/bob" )
