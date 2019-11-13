@@ -74,7 +74,7 @@ embedded_instances {
   "embedded_components {\n"
   "  id: \"gamapadFactory\"\n"
   "  type: \"collectionfactory\"\n"
-  "  data: \"prototype: \\\"/main/gamepad.collection\\\"\\n"
+  "  data: \"prototype: \\\"/gamepad/gamepad.collection\\\"\\n"
   "load_dynamically: false\\n"
   "\"\n"
   "  position {\n"
