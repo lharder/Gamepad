@@ -1,0 +1,21 @@
+require( "lib.Gamepad" )
+
+
+
+function init( self )
+	self.gp = Gamepad.new()
+	self.gp:addButton( "Button A", 900, 100 )
+	self.gp:addButton( "Button B", 1010, 100 )
+	self.gp:addButton( "Menu", 1106, 26, "menuSmall", "/bob" )
+end
+
+
+function on_message( self, message_id, message, sender )
+	if message_id == hash( "joystick" ) then
+		pprint( "JOE: joystick   x: " .. tostring( message.x ) .. ",   y: " .. tostring( message.y ) )
+	else
+		pprint( "JOE: " .. tostring( message_id ) .. ": " .. tostring( message.pressed ) .. ",    released: " .. tostring( message.released ) )
+	end
+	
+end
+

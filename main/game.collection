@@ -1,10 +1,10 @@
 name: "default"
 scale_along_z: 0
 embedded_instances {
-  id: "go"
+  id: "joe"
   data: "components {\n"
-  "  id: \"gamepadSpawner\"\n"
-  "  component: \"/example/player.script\"\n"
+  "  id: \"script\"\n"
+  "  component: \"/main/joe.script\"\n"
   "  position {\n"
   "    x: 0.0\n"
   "    y: 0.0\n"
@@ -74,7 +74,7 @@ embedded_instances {
   "embedded_components {\n"
   "  id: \"gamapadFactory\"\n"
   "  type: \"collectionfactory\"\n"
-  "  data: \"prototype: \\\"/gamepad/gamepad.collection\\\"\\n"
+  "  data: \"prototype: \\\"/lib/gamepad.collection\\\"\\n"
   "load_dynamically: false\\n"
   "\"\n"
   "  position {\n"
@@ -93,6 +93,41 @@ embedded_instances {
   position {
     x: 500.0
     y: 400.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "bob"
+  data: "components {\n"
+  "  id: \"script\"\n"
+  "  component: \"/main/bob.script\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 0.0
+    y: 0.0
     z: 0.0
   }
   rotation {

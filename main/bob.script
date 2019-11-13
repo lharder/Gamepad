@@ -1,0 +1,11 @@
+
+function on_message( self, message_id, message, sender )
+
+	if message_id == hash( "joystick" ) then
+		pprint( "BOB: joystick   x: " .. tostring( message.x ) .. ",   y: " .. tostring( message.y ) )
+	else
+		pprint( "BOB: " .. tostring( message_id ) .. ": " .. tostring( message.pressed ) .. ",    released: " .. tostring( message.released ) )
+	end
+	
+end
+

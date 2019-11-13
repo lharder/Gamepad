@@ -1,11 +1,11 @@
-script: "/gamepad/gamepad.gui_script"
+script: "/lib/gamepad.gui_script"
 textures {
   name: "gamepad"
-  texture: "/gamepad/gamepad.atlas"
+  texture: "/lib/gamepad.atlas"
 }
 textures {
   name: "gamepad1"
-  texture: "/gamepad/gamepad.atlas"
+  texture: "/lib/gamepad.atlas"
 }
 background_color {
   x: 0.0
@@ -46,7 +46,7 @@ nodes {
   }
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
-  texture: "gamepad1/marker"
+  texture: "gamepad1/lineLight05"
   id: "background"
   xanchor: XANCHOR_NONE
   yanchor: YANCHOR_NONE

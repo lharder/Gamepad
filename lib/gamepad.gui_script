@@ -25,11 +25,10 @@ end
 
 
 
-function addButton( self, name, x, y, texture ) 
+function addButton( self, name, x, y, texture, listener ) 
 	local btn = gui.clone( self.buttonTmpl )
 	gui.set_enabled( btn, true )
-	-- pprint( btn )
-
+	
 	local pos = gui.get_position( btn )
 	pos.x = x
 	pos.y = y
@@ -54,7 +53,7 @@ function addButton( self, name, x, y, texture )
 		gui.play_flipbook( btn, img )
 	end
 
-	table.insert( self.buttons, { name = name,  button = btn } )
+	table.insert( self.buttons, { name = name,  button = btn, listener = listener } )
 	return btn
 end
 
@@ -67,7 +66,12 @@ end
 
 function on_message( self, message_id, message, sender )
 	if message_id == hash( "register" ) then
-		self.listener = sender
+
+		if message.listener then
+			self.listener = message.listener
+		else 
+			self.listener = sender
+		end
 		
 	elseif message_id == hash( "unregister" ) then
 		self.listener = nil
@@ -76,7 +80,7 @@ function on_message( self, message_id, message, sender )
 		gui.set_rotation( self.background, vmath.vector3( 0, 0, message.degrees ) )
 
 	elseif message_id == hash( "addButton" ) then
-		addButton( self, message.name, message.x, message.y, message.texture )
+		addButton( self, message.name, message.x, message.y, message.texture, message.listener )
 	end
 end
 
@@ -84,13 +88,18 @@ end
 local function post_to_listener( self, message_id, message )
 	-- if a custom handler function per button is provided use that
 	for i, item in ipairs( self.buttons ) do 
-		-- handle
+
+		-- send message to custom button handler if registered for this event
+		if( item.listener ~= nil ) and ( item.name == message_id ) then
+			msg.post( item.listener, message_id, message or {} )
+			return
+		end
+		
 	end
 
 	-- otherwise send message to default listener
 	if self.listener then
 		msg.post( self.listener, message_id, message or {} )
-		-- pprint( message )
 	end
 end
 
