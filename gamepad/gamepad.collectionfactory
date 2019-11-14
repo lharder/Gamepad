@@ -1,0 +1,2 @@
+prototype: "/gamepad/gamepad.collection"
+load_dynamically: false

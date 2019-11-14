@@ -1,0 +1,21 @@
+images {
+  image: "/gamepad/assets/lineLight05.png"
+}
+images {
+  image: "/gamepad/assets/lineLight49.png"
+}
+images {
+  image: "/gamepad/assets/lineLight46.png"
+}
+images {
+  image: "/gamepad/assets/menu.png"
+}
+images {
+  image: "/gamepad/assets/marker.png"
+}
+images {
+  image: "/gamepad/assets/menuSmall.png"
+}
+margin: 0
+extrude_borders: 0
+inner_padding: 0

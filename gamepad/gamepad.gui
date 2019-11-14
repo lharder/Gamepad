@@ -1,11 +1,11 @@
-script: "/lib/gamepad.gui_script"
+script: "/gamepad/gamepad.gui_script"
 textures {
   name: "gamepad"
-  texture: "/lib/gamepad.atlas"
+  texture: "/gamepad/gamepad.atlas"
 }
 textures {
   name: "gamepad1"
-  texture: "/lib/gamepad.atlas"
+  texture: "/gamepad/gamepad.atlas"
 }
 background_color {
   x: 0.0
