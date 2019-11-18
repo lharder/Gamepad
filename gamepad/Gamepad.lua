@@ -18,6 +18,3 @@ function Gamepad.new( gamepadfactory, listener )
 
 	return pad
 end
-
-function test() 
-end
