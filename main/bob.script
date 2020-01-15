@@ -4,6 +4,10 @@ function on_message( self, message_id, message, sender )
 	if message_id == hash( "Menu" ) then
 		sys.exit( 0 )
 	end
+
+	if message_id ~= hash( "joystick" ) and message.pressed then
+		pprint( "BOB button: " .. tostring( message_id ) )
+	end
 	
 end
 

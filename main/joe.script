@@ -2,11 +2,12 @@ require( "gamepad.Gamepad" )
 
 
 function init( self )
-	self.gp = Gamepad.new( "/joe#gamepadFactory" )
+	self.gp = Gamepad.new( "/gamepad", "/joe" )
 	self.gp:addButton( "Button A", 900, 100 )
-	self.gp:addButton( "Button B", 1010, 100 )
-	self.gp:addButton( "Menu", 1106, 26, "menuSmall", "/bob" )
+	self.gp:addButton( "Button B", 1010, 100, "/bob" )
+	self.gp:addButton( "Menu", 1106, 26, "/bob", "menuSmall" )
 end
+
 
 
 function on_message( self, message_id, message, sender )
@@ -14,9 +15,9 @@ function on_message( self, message_id, message, sender )
 		pprint( "JOE joystick   x: " .. tostring( message.x ) .. ",   y: " .. tostring( message.y ) )
 	end
 
-	if message_id ~= hash( "joystick" ) then
-		pprint( "JOE button: " .. tostring( message_id ) .. ": " .. tostring( message.pressed ) )
+	if message_id ~= hash( "joystick" ) and message.pressed then
+		pprint( "JOE button: " .. tostring( message_id ) )
 	end
-	
+
 end
 

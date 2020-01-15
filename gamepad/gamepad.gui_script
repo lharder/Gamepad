@@ -53,6 +53,7 @@ function addButton( self, name, x, y, texture, listener )
 		gui.play_flipbook( btn, img )
 	end
 
+	-- if listener is nil the default listener gets the event
 	table.insert( self.buttons, { name = name,  button = btn, listener = listener, pressed = false } )
 	return btn
 end
