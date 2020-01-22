@@ -12,11 +12,16 @@ end
 
 function on_message( self, message_id, message, sender )
 	if message_id == hash( "joystick" ) then
+		local pos = go.get_position()
+		pos.x = pos.x + message.x
+		pos.y = pos.y + message.y
+		go.set_position( pos )
+		
 		pprint( "JOE joystick   x: " .. tostring( message.x ) .. ",   y: " .. tostring( message.y ) )
 	end
 
 	if message_id ~= hash( "joystick" ) and message.pressed then
-		pprint( "JOE button: " .. tostring( message_id ) )
+		pprint( "JOE button: " .. tostring( message_id ) .. ": " .. tostring( message.pressed  ) )
 	end
 
 end

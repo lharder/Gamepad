@@ -179,7 +179,7 @@ local function handle_touch( self, touch, touch_index )
 			position.y = self.joystick_start_position.y - sin * radius
 			distance = radius
 		end
-		gui.set_position( self.joystick, position)
+		gui.set_position( self.joystick, position )
 		post_to_listener( self, "joystick", { x = -( cos * distance / radius ), y = -( sin * distance / radius ) } )
 	end
 	
@@ -201,10 +201,18 @@ function calibrate( self, touch )
 end
 
 
+-- ------------------------------------
+local xDiv = 0
+local yDiv = 0
+local ratio_x 
+local ratio_y
+local item
+
 function on_input( self, action_id, action )
+	-- pprint( action_id, action )
 	if action.touch then
-		local ratio_x = action.x / ( action.screen_x or action.x )
-		local ratio_y = action.y / ( action.screen_y or action.y )
+		ratio_x = action.x / ( action.screen_x or action.x )
+		ratio_y = action.y / ( action.screen_y or action.y )
 
 		for i, tp in pairs( action.touch ) do
 			handle_touch( self, tp, i )
@@ -212,4 +220,26 @@ function on_input( self, action_id, action )
 	else
 		handle_touch( self, action, 0 )
 	end
+
+	
+	-- cursor keys as alternative to touch
+	if  action_id == hash( "down" ) or action_id == hash( "up" ) or
+		action_id == hash( "left" ) or action_id == hash( "right" ) 
+	then
+		if( action_id == hash( "left" ) ) then xDiv = - action.value end
+		if( action_id == hash( "right" ) ) then xDiv = action.value end
+		if( action_id == hash( "up" ) ) then yDiv = action.value end
+		if( action_id == hash( "down" ) ) then yDiv = - action.value end
+
+		post_to_listener( self, "joystick", { x = xDiv, y = yDiv } )
+		-- pprint( "x: " .. xDiv .. ",   y: " .. yDiv )
+	end	
+
+	if action_id == hash( "space" ) or action_id == hash( "enter" ) then
+		if( action_id == hash( "space" ) ) then item = self.buttons[ 1 ] end
+		if( action_id == hash( "enter" ) ) then item = self.buttons[ 2 ] end
+		
+		post_to_listener( self, item.name, { pressed = action.pressed } )
+	end
+	
 end
